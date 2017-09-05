@@ -1,6 +1,6 @@
 import React from 'react';
 import {Grid, Icon} from "semantic-ui-react";
-import {NavLink} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 
 const Header = () => {
     return (
@@ -8,10 +8,10 @@ const Header = () => {
             <Grid columns={2}>
                 <Grid.Row>
                     <Grid.Column>
-                        <a href="/">
+                        <Link to="/">
                             <Icon name="find" size="big"/>&nbsp;&nbsp;
                             <h4 style={{display: 'inline-block'}}>Oculare</h4>
-                        </a>
+                        </Link>
                     </Grid.Column>
                     <Grid.Column textAlign="right">
                         <nav id="top-nav">
