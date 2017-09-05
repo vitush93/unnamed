@@ -1,0 +1,20 @@
+.ui.items > .item .meta {
+    margin-left: 28px
+}
+
+.ui.items > .item .extra {
+    text-align: right;
+}
+
+.ui.basic.table tbody tr {
+    border-bottom: none transparent;
+}
+
+.ui.table tr td {
+    border-top: 0
+}
+
+.resource-tags {
+    display: inline-block;
+    margin-left: 15px;
+}

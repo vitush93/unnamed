@@ -1,0 +1,42 @@
+#header a {
+    color: #333;
+    font-weight: bold;
+    font-size: 16px;
+    transition: 0.1s;
+}
+
+#header {
+    margin-top: 40px;
+    margin-bottom: 50px;
+}
+
+#top-nav {
+    margin-top: 23px;
+}
+
+#top-nav ul {
+    padding: 0;
+    margin: 0;
+}
+
+#top-nav ul li {
+    list-style-type: none;
+    display: inline-block;
+    padding-left: 30px;
+}
+
+#top-nav a:hover {
+    transition: 0.1s;
+    color: #4183c4;
+}
+
+#matched-channels {
+    margin-top: 10px;
+}
+
+
+#matched-channels span {
+    color: #666;
+    font-style: italic;
+    margin-right: 10px;
+}
