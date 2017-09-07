@@ -9,30 +9,38 @@ class SearchBox extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            value: ''
+        };
+
         this.onChange = this.onChange.bind(this);
     }
 
-    componentDidMount() {
-        if (window.searchTermTemp) {
-            this.searchbox.inputRef.value = window.searchTermTemp;
+    // componentDidMount() {
+        // if (window.searchTermTemp) {
+        //     this.searchbox.inputRef.value = window.searchTermTemp;
+        //
+        //     delete window.searchTermTemp;
+        // }
 
-            delete window.searchTermTemp;
-        }
-
-        this.searchbox.focus();
-    }
+        // this.searchbox.focus();
+    // }
 
     onChange(e) {
-        const val = e.target.value;
-        window.searchTermTemp = val;
+        // const value = e.target.value;
+        this.setState({value: e.target.value});
 
-        if (val.length === 0) {
+        console.log(this.state.value);
+
+        // window.searchTermTemp = value;
+
+        if (this.state.value.length === 0) {
             this.props.history.push('/');
 
             return;
         }
 
-        if (isWebUri(val)) {
+        if (isWebUri(this.state.value)) {
             this.props.history.push('/add');
         } else {
             this.props.history.push('/search');
@@ -41,8 +49,15 @@ class SearchBox extends React.Component {
 
     render() {
         return (
-            <Input size="massive" id="search" ref={(input) => this.searchbox = input} fluid
-                   placeholder='search or paste url to post new..' onChange={this.onChange} icon="search"/>
+            <Input value={this.state.value}
+                   size="massive"
+                   id="search"
+                   autoFocus
+                   // ref={(input) => this.searchbox = input}
+                   fluid
+                   placeholder='search or paste url to post new..'
+                   onChange={this.onChange}
+                   icon="search"/>
         );
     }
 }
