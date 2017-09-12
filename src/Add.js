@@ -85,7 +85,7 @@ class Add extends React.Component {
                                 <Form.Input required label="Resource title" value={this.state.title}
                                             onChange={this.titleChanged.bind(this)} placeholder="short and apt title"/>
                                 <Form.Input required label="Tags" value={this.state.tags}
-                                            onChange={this.tagsChanged.bind(this)} placeholder="comma-separated tags"/>
+                                            onChange={this.tagsChanged.bind(this)} placeholder="#tag1 #tag2 #tag3"/>
                             </Form.Group>
 
                             <Button color="green" onClick={this.handleSubmit.bind(this)}>Submit resource</Button>
