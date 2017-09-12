@@ -1,10 +1,11 @@
 import React from 'react';
-import {Divider, Grid, Icon, Label} from "semantic-ui-react";
+import {Divider, Grid} from "semantic-ui-react";
 import SearchBox from "./SearchBox";
 import SearchResults from "./SearchResults";
 import {isWebUri} from 'valid-url';
 import {withRouter} from 'react-router-dom';
 import _ from 'lodash';
+import MatchedTags from './MatchedTags';
 
 class Search extends React.Component {
 
@@ -33,7 +34,15 @@ class Search extends React.Component {
             this.props.history.push('/');
         } else if (isWebUri(value)) {
             this.props.history.push('/add');
+        } else {
+            this.doSearch(value);
         }
+    }
+
+    doSearch(term) {
+        const search = {term};
+
+        // TODO make ajax request
     }
 
     render() {
@@ -45,17 +54,7 @@ class Search extends React.Component {
                         <div id="search-component">
                             <SearchBox value={this.state.value} onChange={this.searchBoxChanged.bind(this)}/>
 
-                            <div id="matched-channels">
-                                <span>matched tags:</span>
-                                <Label size="small" color="blue">
-                                    nginx
-                                    <Icon name='close'/>
-                                </Label>
-                                <Label size="small" color="blue">
-                                    php
-                                    <Icon name='close'/>
-                                </Label>
-                            </div>
+                            {/*<MatchedTags tags={[{name: 'nginx'}, {name: 'php'}]} />*/}
                         </div>
                     </Grid.Column>
                 </Grid.Row>

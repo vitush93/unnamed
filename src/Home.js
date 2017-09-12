@@ -42,7 +42,7 @@ class Home extends React.Component {
 
                 <Grid.Row>
                     <Grid.Column>
-                        <NewsFeed/>
+                        {/*<NewsFeed/>*/}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
