@@ -1,6 +1,9 @@
 import React from 'react';
-import {Button, Divider, Form, Grid, Input} from "semantic-ui-react";
+import {Button, Divider, Form, Grid} from "semantic-ui-react";
 import {withRouter} from 'react-router-dom';
+import SearchBox from "./SearchBox";
+import {isWebUri} from 'valid-url';
+import _ from 'lodash';
 
 class Add extends React.Component {
 
@@ -8,38 +11,55 @@ class Add extends React.Component {
         super(props);
 
         this.state = {
-            searchTerm: ''
+            url: '',
+            title: '',
+            tags: ''
         };
-
-        this.search = this.search.bind(this);
-        this.cancelAdd = this.cancelAdd.bind(this);
     }
 
     componentDidMount() {
-        if (window.searchTermTemp) {
-            this.searchbox.inputRef.value = window.searchTermTemp;
-
+        if (_.has(window, 'searchBoxValue')) {
             this.setState({
-                searchTerm: window.searchTermTemp
-            });
-
-            this.searchbox.focus();
-            delete window.searchTermTemp;
+                url: window.searchBoxValue
+            }, () => delete window.searchBoxValue);
         }
     }
 
-    search(e) {
-        const val = e.target.value;
-
-        this.setState({
-            searchTerm: val
-        });
+    searchBoxChanged(e) {
+        this.setState({url: e.target.value});
     }
 
-    cancelAdd(e) {
+    titleChanged(e) {
+        this.setState({title: e.target.value})
+    }
+
+    tagsChanged(e) {
+        this.setState({tags: e.target.value});
+    }
+
+    handleCancelAdd(e) {
         e.preventDefault();
 
         this.props.history.push('/');
+    }
+
+    handleSubmit(e) {
+        e.preventDefault();
+
+        // validate URL again
+        if (!isWebUri(this.state.url)) {
+            alert('Please enter a valid URL.');
+
+            return;
+        }
+
+        // prevent sending a tampered form
+        if (this.state.title.length === 0 || this.state.tags.length === 0) {
+            return;
+        }
+
+        console.log('Form submit');
+        // TODO submit form
     }
 
     render() {
@@ -49,7 +69,8 @@ class Add extends React.Component {
                 <Grid.Row>
                     <Grid.Column>
                         <div id="search-component">
-                            <Input ref={(input) => this.searchbox = input} size="massive" id="search" fluid placeholder='enter a resource URL' onChange={this.search} icon="linkify"/>
+                            <SearchBox value={this.state.url} onChange={this.searchBoxChanged.bind(this)}
+                                       placeholder="url of the new resource"/>
                         </div>
                     </Grid.Column>
                 </Grid.Row>
@@ -61,19 +82,14 @@ class Add extends React.Component {
 
                         <Form>
                             <Form.Group widths="equal">
-                                <Form.Input required label="Resource title" placeholder="short and apt title"/>
-                                <Form.Input required label="Tags" placeholder="comma separated tags"/>
+                                <Form.Input required label="Resource title" value={this.state.title}
+                                            onChange={this.titleChanged.bind(this)} placeholder="short and apt title"/>
+                                <Form.Input required label="Tags" value={this.state.tags}
+                                            onChange={this.tagsChanged.bind(this)} placeholder="comma-separated tags"/>
                             </Form.Group>
-                            <Form.Group widths="equal">
-                                <Form.TextArea label="Your notes" placeholder="(markdown enabled)"
-                                               style={{height: 200}}/>
-                                <Form.TextArea label="Search queries" placeholder="one query per line"
-                                               style={{height: 200}}/>
-                            </Form.Group>
-                            <Input type="hidden" value={this.state.searchTerm}/>
 
-                            <Button color="green">Submit resource</Button>
-                            <Button color="red" onClick={this.cancelAdd}>Cancel</Button>
+                            <Button color="green" onClick={this.handleSubmit.bind(this)}>Submit resource</Button>
+                            <Button color="red" onClick={this.handleCancelAdd.bind(this)}>Cancel</Button>
                         </Form>
 
                     </Grid.Column>
@@ -83,6 +99,4 @@ class Add extends React.Component {
     }
 }
 
-const AddWithRouter = withRouter(Add);
-
-export default AddWithRouter;
+export default withRouter(Add);

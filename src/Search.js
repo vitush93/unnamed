@@ -2,8 +2,40 @@ import React from 'react';
 import {Divider, Grid, Icon, Label} from "semantic-ui-react";
 import SearchBox from "./SearchBox";
 import SearchResults from "./SearchResults";
+import {isWebUri} from 'valid-url';
+import {withRouter} from 'react-router-dom';
+import _ from 'lodash';
 
 class Search extends React.Component {
+
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            value: ''
+        };
+    }
+
+    componentDidMount() {
+        if (_.has(window, 'searchBoxValue')) {
+            this.setState({
+                value: window.searchBoxValue
+            }, () => delete window.searchBoxValue);
+        }
+    }
+
+    searchBoxChanged(e) {
+        const value = e.target.value;
+
+        this.setState({value});
+
+        if (value.length === 0) {
+            this.props.history.push('/');
+        } else if (isWebUri(value)) {
+            this.props.history.push('/add');
+        }
+    }
+
     render() {
         return (
             <Grid columns={1}>
@@ -11,7 +43,7 @@ class Search extends React.Component {
                 <Grid.Row>
                     <Grid.Column>
                         <div id="search-component">
-                            <SearchBox/>
+                            <SearchBox value={this.state.value} onChange={this.searchBoxChanged.bind(this)}/>
 
                             <div id="matched-channels">
                                 <span>matched tags:</span>
@@ -40,4 +72,4 @@ class Search extends React.Component {
     }
 }
 
-export default Search;
+export default withRouter(Search);
