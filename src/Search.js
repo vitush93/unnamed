@@ -13,7 +13,8 @@ class Search extends React.Component {
         super(props);
 
         this.state = {
-            value: ''
+            value: '',
+            results: []
         };
     }
 
@@ -35,7 +36,7 @@ class Search extends React.Component {
         } else if (isWebUri(value)) {
             this.props.history.push('/add');
         } else {
-            this.doSearch(value);
+            if (value.length > 2) this.doSearch(value);
         }
     }
 
@@ -43,6 +44,7 @@ class Search extends React.Component {
         const search = {term};
 
         // TODO make ajax request
+        this.setState({results: window.resources});
     }
 
     render() {
@@ -63,7 +65,7 @@ class Search extends React.Component {
 
                 <Grid.Row>
                     <Grid.Column>
-                        <SearchResults resources={window.resources}/>
+                        <SearchResults resources={this.state.results}/>
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
