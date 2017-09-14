@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Divider, Form, Grid} from "semantic-ui-react";
+import {Button, Divider, Form, Grid, Message} from "semantic-ui-react";
 import {withRouter} from 'react-router-dom';
 import SearchBox from "./SearchBox";
 import {isWebUri} from 'valid-url';
@@ -13,7 +13,10 @@ class Add extends React.Component {
         this.state = {
             url: '',
             title: '',
-            tags: ''
+            tags: '',
+            titleError: false,
+            tagsError: false,
+            urlError: false
         };
     }
 
@@ -26,15 +29,18 @@ class Add extends React.Component {
     }
 
     searchBoxChanged(e) {
-        this.setState({url: e.target.value});
+        const url = e.target.value;
+        const urlError = !isWebUri(url);
+
+        this.setState({url, urlError});
     }
 
     titleChanged(e) {
-        this.setState({title: e.target.value})
+        this.setState({title: e.target.value, titleError: false})
     }
 
     tagsChanged(e) {
-        this.setState({tags: e.target.value});
+        this.setState({tags: e.target.value, tagsError: false});
     }
 
     handleCancelAdd(e) {
@@ -53,13 +59,22 @@ class Add extends React.Component {
             return;
         }
 
-        // prevent sending a tampered form
-        if (this.state.title.length === 0 || this.state.tags.length === 0) {
-            return;
+        // prevent sending empty form
+        const titleEmpty = this.state.title.length === 0;
+        const tagsEmpty = this.state.tags.length === 0;
+
+        if (titleEmpty) {
+            this.setState({titleError: true});
         }
 
-        console.log('Form submit');
+        if (tagsEmpty) {
+            this.setState({tagsError: true});
+        }
+
+        if (titleEmpty || tagsEmpty) return;
+
         // TODO submit form
+        console.log('Form submit');
     }
 
     render() {
@@ -70,6 +85,7 @@ class Add extends React.Component {
                     <Grid.Column>
                         <div id="search-component">
                             <SearchBox value={this.state.url} onChange={this.searchBoxChanged.bind(this)}
+                                       error={this.state.urlError}
                                        placeholder="url of the new resource"/>
                         </div>
                     </Grid.Column>
@@ -83,8 +99,9 @@ class Add extends React.Component {
                         <Form>
                             <Form.Group widths="equal">
                                 <Form.Input required label="Resource title" value={this.state.title}
+                                            error={this.state.titleError}
                                             onChange={this.titleChanged.bind(this)} placeholder="short and apt title"/>
-                                <Form.Input required label="Tags" value={this.state.tags}
+                                <Form.Input required label="Tags" value={this.state.tags} error={this.state.tagsError}
                                             onChange={this.tagsChanged.bind(this)} placeholder="#tag1 #tag2 #tag3"/>
                             </Form.Group>
 

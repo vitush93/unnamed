@@ -1,17 +1,19 @@
 import React from 'react';
 import {Input} from "semantic-ui-react";
 
-const SearchBox = ({value, onChange, placeholder}) => {
+const SearchBox = ({value, onChange, placeholder, error}) => {
 
-    // FIXME using global window variable
     const changeHandler = (e) => {
         window.searchBoxValue = e.target.value;
 
         onChange(e);
     };
 
+    if (!error) error = false;
+
     return (
         <Input value={value}
+               error={error}
                size="massive"
                id="search"
                autoFocus
