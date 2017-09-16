@@ -31,6 +31,11 @@ class Tag
         $this->updated = new \DateTime();
     }
 
+    public static function canonName($name)
+    {
+        return Strings::webalize($name);
+    }
+
     /**
      * @return string
      */
@@ -54,7 +59,7 @@ class Tag
     {
         $this->name = $name;
 
-        $this->canon = Strings::webalize($name);
+        $this->canon = self::canonName($name);
     }
 
 }

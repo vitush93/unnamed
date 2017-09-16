@@ -4,6 +4,9 @@ import {withRouter} from 'react-router-dom';
 import SearchBox from "./SearchBox";
 import {isWebUri} from 'valid-url';
 import _ from 'lodash';
+import axios from "axios";
+import api from "./api";
+import qs from 'qs';
 
 class Add extends React.Component {
 
@@ -73,8 +76,13 @@ class Add extends React.Component {
 
         if (titleEmpty || tagsEmpty) return;
 
-        // TODO submit form
-        console.log('Form submit');
+        axios.post(api().add(), qs.stringify({
+            url: this.state.url,
+            title: this.state.title,
+            tags: this.state.tags
+        }))
+            .then(data => console.log(data))
+            .catch(err => console.log(err));
     }
 
     render() {

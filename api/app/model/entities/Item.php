@@ -36,6 +36,12 @@ class Item
      * @var string
      * @ORM\Column(type="string")
      */
+    private $url;
+
+    /**
+     * @var string
+     * @ORM\Column(type="string")
+     */
     private $title;
 
     /**
@@ -44,11 +50,35 @@ class Item
      */
     private $type;
 
+    /**
+     * Crawled keywords.
+     *
+     * @var string
+     * @ORM\Column(type="string", nullable=true)
+     */
+    private $keywords;
+
     function __construct()
     {
         $this->created = new \DateTime();
         $this->updated = new \DateTime();
         $this->tags = new ArrayCollection();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getKeywords()
+    {
+        return $this->keywords;
+    }
+
+    /**
+     * @param mixed $keywords
+     */
+    public function setKeywords($keywords)
+    {
+        $this->keywords = $keywords;
     }
 
     /**
@@ -93,4 +123,19 @@ class Item
         $this->type = $type;
     }
 
+    /**
+     * @return string
+     */
+    public function getUrl(): string
+    {
+        return $this->url;
+    }
+
+    /**
+     * @param string $url
+     */
+    public function setUrl(string $url)
+    {
+        $this->url = $url;
+    }
 }

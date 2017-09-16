@@ -27,4 +27,6 @@ services:
 	- App\Forms\FormFactory
 	- App\Forms\SignInFormFactory
 	- App\Forms\SignUpFormFactory
+	- App\Model\TagManager
+	- App\Model\ItemManager
 	router: App\RouterFactory::createRouter
