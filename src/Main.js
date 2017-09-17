@@ -17,13 +17,16 @@ const Main = ({history}) => {
         history.push('/');
     }
 
+    // TODO wrap protected routes in if/else logic
+    // that decides what to show in /add for example (either form or notification about login required).
+
     return (
         <Switch>
             <Route exact path="/" component={Home}/>
             <Route path="/about" component={About}/>
             <Route path="/add" component={Add}/>
             <Route path="/search" component={Search}/>
-            <Route path="/Logout" component={Logout}/>
+            <Route path="/logout" component={Logout}/>
         </Switch>
     );
 };

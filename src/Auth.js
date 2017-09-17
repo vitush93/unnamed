@@ -2,6 +2,10 @@ import Lockr from 'lockr';
 
 const Auth = {
 
+    token: () => {
+        return Lockr.get('token', '');
+    },
+
     isLoggedIn: () => {
         return Lockr.get('token', null) !== null;
     },

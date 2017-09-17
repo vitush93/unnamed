@@ -6,7 +6,9 @@ const logger = require('./src/server/logger');
 const githubOAuth = require('./src/server/github');
 const model = require('./src/server/model');
 const path = require('path');
+const cors = require('cors');
 const Cache = require('./src/server/cache');
+const utils = require("./src/server/utils");
 const cache = new Cache();
 
 
@@ -53,6 +55,9 @@ const authMiddleware = (req, res, next) => {
 
 
 const app = express();
+app.use(cors({
+    origin: 'http://localhost:3000' // for development
+}));
 app.use(bodyParser.json());
 app.use('/static', express.static('build/static'));
 app.use(['*.json', '*.ico', '*.js'], express.static('build'));
@@ -60,7 +65,7 @@ app.use(['*.json', '*.ico', '*.js'], express.static('build'));
 /**
  * Home route.
  */
-app.get('/', (req, res) => {
+app.get(['/', '/about', '/add', '/search', '/logout'], (req, res) => {
     res.sendFile(path.join(__dirname + '/build/index.html'));
 });
 
@@ -81,8 +86,41 @@ app.get('/github/callback', (req, res) => {
 /**
  * Add a new entry from form data.
  */
-app.get('/api/v1/add', authMiddleware, (req, res) => {
-    // TODO process form data
+app.post('/api/v1/add', authMiddleware, (req, res) => {
+
+    // parse hashtags
+    const tags = utils.parseHashtags(req.body.tags);
+    const title = req.body.title;
+    const url = req.body.url;
+
+    // find user by token and create a new Item
+    const q = model.User.findOne({token: req.header('X-Auth-Token')}).exec();
+    q.then(user => {
+        model.Item.create({
+            user,
+            title,
+            url,
+            tags: utils.createTagModels(tags),
+        }, (err, item) => {
+            if (err) throw err;
+
+            res.json({
+                data: item
+            });
+        });
+    }).catch(err => {
+        if (err) {
+            res.json({
+                error: err.message
+            });
+
+            logger.log('error', err);
+        }
+    });
+});
+
+app.get('/api/v1/link', authMiddleware, (req, res) => {
+    // TODO fetch title from url
     res.send('works');
 });
 

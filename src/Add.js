@@ -6,7 +6,7 @@ import {isWebUri} from 'valid-url';
 import _ from 'lodash';
 import axios from "axios";
 import api from "./api";
-import qs from 'qs';
+import Auth from "./Auth";
 
 class Add extends React.Component {
 
@@ -62,6 +62,8 @@ class Add extends React.Component {
             return;
         }
 
+        // TODO fetch site title from URL
+
         // prevent sending empty form
         const titleEmpty = this.state.title.length === 0;
         const tagsEmpty = this.state.tags.length === 0;
@@ -76,11 +78,18 @@ class Add extends React.Component {
 
         if (titleEmpty || tagsEmpty) return;
 
-        axios.post(api().add(), qs.stringify({
-            url: this.state.url,
-            title: this.state.title,
-            tags: this.state.tags
-        }))
+        axios({
+            method: 'post',
+            url: api().add(),
+            data: {
+                url: this.state.url,
+                title: this.state.title,
+                tags: this.state.tags
+            },
+            headers: {
+                'X-Auth-Token': Auth.token()
+            }
+        })
             .then(data => console.log(data))
             .catch(err => console.log(err));
     }
@@ -112,7 +121,7 @@ class Add extends React.Component {
                                 <Form.Input required label="Tags" value={this.state.tags} error={this.state.tagsError}
                                             onChange={this.tagsChanged.bind(this)} placeholder="#tag1 #tag2 #tag3"/>
                             </Form.Group>
-                            <Form.TextArea label="Describe your link (optional)" />
+                            <Form.TextArea label="Describe your link (optional)"/>
 
                             <Button color="green" onClick={this.handleSubmit.bind(this)}>Submit resource</Button>
                             <Button color="red" onClick={this.handleCancelAdd.bind(this)}>Cancel</Button>

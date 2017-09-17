@@ -24,7 +24,10 @@ const itemSchema = new Schema({
     created: {
         type: Date, default: Date.now
     },
-    approved: Boolean
+    approved: {
+        type: Boolean,
+        default: false
+    }
 }, {
     timestamps: true
 });
