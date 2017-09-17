@@ -4,15 +4,26 @@
   "private": true,
   "dependencies": {
     "axios": "^0.16.2",
+    "bluebird": "^3.5.0",
+    "body-parser": "^1.18.1",
+    "cors": "^2.8.4",
+    "dotenv": "^4.0.0",
+    "express": "^4.15.4",
+    "github": "^11.0.0",
+    "github-oauth": "^0.2.2",
+    "lockr": "^0.8.4",
     "lodash": "^4.17.4",
+    "mongoose": "^4.11.11",
     "qs": "^6.5.1",
+    "query-string": "^5.0.0",
     "react": "^15.6.1",
     "react-dom": "^15.6.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.13",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.72.0",
-    "valid-url": "^1.0.9"
+    "valid-url": "^1.0.9",
+    "winston": "^2.3.1"
   },
   "scripts": {
     "start": "react-scripts start",

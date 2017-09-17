@@ -112,6 +112,7 @@ class Add extends React.Component {
                                 <Form.Input required label="Tags" value={this.state.tags} error={this.state.tagsError}
                                             onChange={this.tagsChanged.bind(this)} placeholder="#tag1 #tag2 #tag3"/>
                             </Form.Group>
+                            <Form.TextArea label="Describe your link (optional)" />
 
                             <Button color="green" onClick={this.handleSubmit.bind(this)}>Submit resource</Button>
                             <Button color="red" onClick={this.handleCancelAdd.bind(this)}>Cancel</Button>

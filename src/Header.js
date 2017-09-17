@@ -1,8 +1,18 @@
 import React from 'react';
 import {Grid, Icon} from "semantic-ui-react";
 import {Link, NavLink} from "react-router-dom";
+import Auth from './Auth';
 
 const Header = () => {
+
+    let login;
+    if (Auth.isLoggedIn()) {
+        login = <li><NavLink to="/logout">logout</NavLink></li>;
+    } else {
+        login = <li><a href="/login/github">sign in with <Icon name="github"/></a></li>;
+    }
+
+
     return (
         <header id="header">
             <Grid columns={2}>
@@ -19,7 +29,7 @@ const Header = () => {
                                 <li>
                                     <NavLink to="/about">wtf?!</NavLink>
                                 </li>
-                                <li><a href="">sign in with <Icon name="github"/> </a></li>
+                                {login}
                             </ul>
                         </nav>
                     </Grid.Column>

@@ -1,10 +1,14 @@
 const api = () => {
 
-    const host = 'http://localhost:8080';
+    const host = 'http://localhost/api/v1';
 
     return {
+        login: () => {
+            return host + '/github/login'
+        },
+
         add: () => {
-            return host + "/add";
+            return host + '/add';
         }
     }
 };
