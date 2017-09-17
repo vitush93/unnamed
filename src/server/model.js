@@ -8,7 +8,9 @@ const userSchema = new Schema({
     username: String,
     email: String,
     avatar: String,
-    token: String
+    token: String,
+}, {
+    timestamps: true
 });
 
 const itemSchema = new Schema({
@@ -23,6 +25,8 @@ const itemSchema = new Schema({
         type: Date, default: Date.now
     },
     approved: Boolean
+}, {
+    timestamps: true
 });
 
 exports.User = mongoose.model('User', userSchema);
