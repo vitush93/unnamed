@@ -97,7 +97,7 @@ app.post('/api/v1/add', authMiddleware, (req, res) => {
     const q = model.User.findOne({token: req.header('X-Auth-Token')}).exec();
     q.then(user => {
         model.Item.create({
-            user,
+            user: user._id,
             title,
             url,
             tags: utils.createTagModels(tags),

@@ -1,40 +1,92 @@
-const mongoose = require('mongoose');
-mongoose.Promise = require('bluebird');
-mongoose.connect(process.env.MONGO_CONNECTION_STRING);
+const mongoose = require('./mongoose');
+const validUrl = require('valid-url');
 
 const Schema = mongoose.Schema;
 
+
 const userSchema = new Schema({
-    username: String,
-    email: String,
-    avatar: String,
-    token: String,
+
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+
+    email: {
+        type: String,
+        unique: true,
+    },
+
+    avatar: {
+        type: String,
+    },
+
+    token: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+
     role: {
         type: String,
-        default: 'user' // available: [user, admin, mod]
+        enum: ['user', 'mod', 'admin'],
+        default: 'user',
+        required: true,
     }
 }, {
     timestamps: true
 });
 
+
 const itemSchema = new Schema({
-    user: userSchema,
-    title: String,
-    url: String,
-    tags: [{
-        name: String,
-        count: Number
-    }],
-    created: {
-        type: Date, default: Date.now
+
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User'
     },
+
+    title: {
+        type: String,
+        required: true,
+    },
+
+    url: {
+        type: String,
+        required: true,
+        validate: {
+            validator: (url) => {
+                return validUrl.isWebUri(url)
+            },
+            message: '{VALUE} is not a valid URL!',
+        }
+    },
+
+    tags: [{
+        name: {
+            type: String,
+            required: true,
+        },
+        count: {
+            type: String,
+            required: true,
+        }
+    }],
+
+    created: {
+        type: Date,
+        default: Date.now,
+        required: true,
+    },
+
     approved: {
         type: Boolean,
-        default: false
+        default: false,
+        required: true,
     }
 }, {
     timestamps: true
 });
+
 
 exports.User = mongoose.model('User', userSchema);
 exports.Item = mongoose.model('Item', itemSchema);
