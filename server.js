@@ -156,6 +156,6 @@ app.use(function (err, req, res, next) {
     utils.sendJsonErrorResponse(res, err);
 });
 
-app.listen(80, () => {
+app.listen(8080, () => {
     logger.log('info', 'Listening on port 80');
 });
