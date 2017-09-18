@@ -4,12 +4,15 @@ mongoose.connect(process.env.MONGO_CONNECTION_STRING);
 
 const Schema = mongoose.Schema;
 
-// TODO user roles (admins and mods will have their items approved automatically)
 const userSchema = new Schema({
     username: String,
     email: String,
     avatar: String,
     token: String,
+    role: {
+        type: String,
+        default: 'user' // available: [user, admin, mod]
+    }
 }, {
     timestamps: true
 });

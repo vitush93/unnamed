@@ -101,6 +101,7 @@ app.post('/api/v1/add', authMiddleware, (req, res) => {
             title,
             url,
             tags: utils.createTagModels(tags),
+            approved: (user.role === 'admin' || user.role === 'mod')
         }, (err, item) => {
             if (err) throw err;
 
