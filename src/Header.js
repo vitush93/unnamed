@@ -7,7 +7,7 @@ const Header = () => {
 
     let login;
     if (Auth.isLoggedIn()) {
-        login = <li><NavLink to="/logout">logout</NavLink></li>;
+        login = <li><NavLink to="/logout">logout</NavLink></li>; // TODO add user profile picture
     } else {
         login = <li><a href="/login/github">sign in with <Icon name="github"/></a></li>;
     }

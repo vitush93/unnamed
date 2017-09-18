@@ -1,6 +1,6 @@
 import React from 'react';
-import {Button, Divider, Form, Grid, Message} from "semantic-ui-react";
-import {withRouter} from 'react-router-dom';
+import {Button, Container, Divider, Form, Grid, Message} from "semantic-ui-react";
+import {Link, withRouter} from 'react-router-dom';
 import SearchBox from "./SearchBox";
 import {isWebUri} from 'valid-url';
 import _ from 'lodash';
@@ -95,6 +95,8 @@ class Add extends React.Component {
     }
 
     render() {
+        const isLoggedIn = Auth.isLoggedIn();
+
         return (
             <Grid columns={1}>
 
@@ -112,21 +114,25 @@ class Add extends React.Component {
 
                 <Grid.Row>
                     <Grid.Column>
+                        {isLoggedIn ? (
+                            <Form>
+                                <Form.Group widths="equal">
+                                    <Form.Input required label="Resource title" value={this.state.title}
+                                                error={this.state.titleError}
+                                                onChange={this.titleChanged.bind(this)} placeholder="short and apt title"/>
+                                    <Form.Input required label="Tags" value={this.state.tags} error={this.state.tagsError}
+                                                onChange={this.tagsChanged.bind(this)} placeholder="#tag1 #tag2 #tag3"/>
+                                </Form.Group>
+                                <Form.TextArea label="Describe your link (optional)"/>
 
-                        <Form>
-                            <Form.Group widths="equal">
-                                <Form.Input required label="Resource title" value={this.state.title}
-                                            error={this.state.titleError}
-                                            onChange={this.titleChanged.bind(this)} placeholder="short and apt title"/>
-                                <Form.Input required label="Tags" value={this.state.tags} error={this.state.tagsError}
-                                            onChange={this.tagsChanged.bind(this)} placeholder="#tag1 #tag2 #tag3"/>
-                            </Form.Group>
-                            <Form.TextArea label="Describe your link (optional)"/>
-
-                            <Button color="green" onClick={this.handleSubmit.bind(this)}>Submit resource</Button>
-                            <Button color="red" onClick={this.handleCancelAdd.bind(this)}>Cancel</Button>
-                        </Form>
-
+                                <Button color="green" onClick={this.handleSubmit.bind(this)}>Submit resource</Button>
+                                <Button color="red" onClick={this.handleCancelAdd.bind(this)}>Cancel</Button>
+                            </Form>
+                        ) : (
+                            <Container textAlign="center">
+                                <p>Please login first to post a new resource. Go <Link to="/">back</Link>.</p>
+                            </Container>
+                        )}
                     </Grid.Column>
                 </Grid.Row>
             </Grid>
