@@ -18,3 +18,13 @@ exports.createTagModels = (tags) => {
         }
     });
 };
+
+exports.sendJsonResponse = (response, data) => {
+    response.json({success: true, data});
+};
+
+exports.sendJsonErrorResponse = (response, err) => {
+    response.status(500);
+
+    response.json({success: false, error: err.message});
+};

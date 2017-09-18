@@ -48,7 +48,7 @@ const authMiddleware = (req, res, next) => {
 
             next();
         } else {
-            next(new Error('Invalid token.'));
+            next(new Error('Invalid token: ' + token));
         }
     }).catch(err => err && next(err));
 };
@@ -104,19 +104,30 @@ app.post('/api/v1/add', authMiddleware, (req, res) => {
         }, (err, item) => {
             if (err) throw err;
 
-            res.json({
-                data: item
-            });
+            utils.sendJsonResponse(res, item);
         });
     }).catch(err => {
         if (err) {
-            res.json({
-                error: err.message
-            });
+            utils.sendJsonErrorResponse(res, err);
 
             logger.log('error', err);
         }
     });
+});
+
+app.get('/api/v1/user', authMiddleware, (req, res) => {
+    const token = req.header('X-Auth-Token');
+
+    const q = model.User.findOne({token}).exec();
+    q.then(user => {
+        utils.sendJsonResponse(res, user);
+    }).catch(err => {
+        if (err) {
+            utils.sendJsonErrorResponse(res, err);
+
+            logger.log('error', err);
+        }
+    })
 });
 
 app.get('/api/v1/link', authMiddleware, (req, res) => {
@@ -131,9 +142,7 @@ app.use(function (err, req, res, next) {
     logger.log('error', err);
 
     res.status(500);
-    res.json({
-        error: err.message
-    });
+    utils.sendJsonErrorResponse(res, err);
 });
 
 app.listen(80, () => {

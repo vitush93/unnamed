@@ -14,8 +14,17 @@ const Auth = {
         Lockr.set('token', token);
     },
 
-    logout: (token) => {
+    logout: () => {
         Lockr.rm('token');
+        Lockr.rm('user');
+    },
+
+    setUser: (user) => {
+        Lockr.set('user', user.data);
+    },
+
+    getUser: () => {
+        return Lockr.get('user', null);
     }
 };
 

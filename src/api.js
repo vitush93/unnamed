@@ -9,6 +9,10 @@ const api = () => {
 
         add: () => {
             return host + '/add';
+        },
+
+        user: () => {
+            return host + '/user'
         }
     }
 };

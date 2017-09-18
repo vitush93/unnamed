@@ -28,7 +28,7 @@ githubOAuth.on('token', function (accessToken, serverResponse) {
 
     // got access token - send response
     const querystring = require('querystring');
-    const query = querystring.stringify({ // TODO also send username & avatar
+    const query = querystring.stringify({
         token: accessToken.access_token
     });
 

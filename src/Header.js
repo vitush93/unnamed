@@ -1,5 +1,5 @@
 import React from 'react';
-import {Grid, Icon} from "semantic-ui-react";
+import {Grid, Icon, Image} from "semantic-ui-react";
 import {Link, NavLink} from "react-router-dom";
 import Auth from './Auth';
 
@@ -7,7 +7,12 @@ const Header = () => {
 
     let login;
     if (Auth.isLoggedIn()) {
-        login = <li><NavLink to="/logout">logout</NavLink></li>; // TODO add user profile picture
+        const user = Auth.getUser();
+
+        login = (
+            <li>
+                <NavLink to="/account"><Image src={user.avatar} width={20} inline shape="circular"/>&nbsp; {user.username}</NavLink>
+            </li>);
     } else {
         login = <li><a href="/login/github">sign in with <Icon name="github"/></a></li>;
     }

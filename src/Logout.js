@@ -1,11 +1,12 @@
 import React from 'react';
 import {Container, Icon} from "semantic-ui-react";
-import * as Lockr from "lockr";
 import {withRouter} from "react-router-dom";
+import Auth from "./Auth";
 
 const Logout = ({history}) => {
 
-    Lockr.rm('token');
+    Auth.logout();
+
     history.push('/');
 
     return (
