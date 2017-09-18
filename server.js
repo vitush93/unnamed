@@ -132,8 +132,16 @@ app.get('/api/v1/user', authMiddleware, (req, res) => {
 });
 
 app.get('/api/v1/link', authMiddleware, (req, res) => {
-    // TODO fetch title from url
-    res.send('works');
+
+    const urlToTitle = require('url-to-title');
+
+    urlToTitle(req.query.url, (err, title) => {
+        if (err) {
+            utils.sendJsonErrorResponse(res, err);
+        } else {
+            utils.sendJsonResponse(res, {title});
+        }
+    });
 });
 
 /**

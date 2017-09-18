@@ -25,9 +25,21 @@ class Add extends React.Component {
 
     componentDidMount() {
         if (_.has(window, 'searchBoxValue')) {
-            this.setState({
-                url: window.searchBoxValue
-            }, () => delete window.searchBoxValue);
+            const url = window.searchBoxValue;
+            axios.get(api().link(), {
+                params: {url},
+                headers: {
+                    'X-Auth-Token': Auth.token()
+                }
+            })
+                .then(result => {
+                    const title = result.data.data.title;
+
+                    this.setState({title});
+                })
+                .catch(err => console.log(err));
+
+            this.setState({url}, () => delete window.searchBoxValue);
         }
     }
 
@@ -61,8 +73,6 @@ class Add extends React.Component {
 
             return;
         }
-
-        // TODO fetch site title from URL
 
         // prevent sending empty form
         const titleEmpty = this.state.title.length === 0;

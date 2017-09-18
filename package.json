@@ -23,7 +23,8 @@
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.72.0",
     "valid-url": "^1.0.9",
-    "winston": "^2.3.1"
+    "winston": "^2.3.1",
+    "url-to-title": "latest"
   },
   "scripts": {
     "start": "react-scripts start",
