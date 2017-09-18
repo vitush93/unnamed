@@ -10,6 +10,7 @@ import queryString from 'query-string';
 import Auth from './Auth';
 import Logout from "./Logout";
 import Spinner from "./Spinner";
+import AddSuccess from "./AddSuccess";
 
 const Main = ({history}) => {
 
@@ -41,6 +42,7 @@ const Main = ({history}) => {
             <Route exact path="/" component={HomeComponent}/>
             <Route path="/about" component={About}/>
             <Route path="/add" component={Add}/>
+            <Route path="/add-success" component={AddSuccess}/>
             <Route path="/search" component={Search}/>
             <Route path="/logout" component={Logout}/>
         </Switch>

@@ -100,8 +100,14 @@ class Add extends React.Component {
                 'X-Auth-Token': Auth.token()
             }
         })
-            .then(data => console.log(data)) // TODO on successful submit navigate to success component
-            .catch(err => console.log(err));
+            .then(data => {
+                this.props.history.push('/add-success');
+            })
+            .catch(err => {
+                alert('Sorry, something went wrong. Try again later.');
+
+                console.log(err)
+            });
     }
 
     render() {
