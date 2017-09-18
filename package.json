@@ -6,6 +6,7 @@
     "axios": "^0.16.2",
     "bluebird": "^3.5.0",
     "body-parser": "^1.18.1",
+    "compression": "^1.7.0",
     "cors": "^2.8.4",
     "dotenv": "^4.0.0",
     "express": "^4.15.4",
@@ -22,9 +23,9 @@
     "react-scripts": "1.0.13",
     "semantic-ui-css": "^2.2.12",
     "semantic-ui-react": "^0.72.0",
+    "url-to-title": "^1.0.6",
     "valid-url": "^1.0.9",
-    "winston": "^2.3.1",
-    "url-to-title": "latest"
+    "winston": "^2.3.1"
   },
   "scripts": {
     "start": "react-scripts start",

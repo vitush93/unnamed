@@ -2,6 +2,7 @@ require('dotenv').config({path: '.env.local'});
 
 const express = require('express');
 const bodyParser = require('body-parser');
+const compression = require('compression');
 const logger = require('./src/server/logger');
 const githubOAuth = require('./src/server/github');
 const model = require('./src/server/model');
@@ -55,6 +56,7 @@ const authMiddleware = (req, res, next) => {
 
 
 const app = express();
+app.use(compression());
 app.use(cors({
     origin: 'http://localhost:3000' // for development
 }));
