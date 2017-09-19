@@ -157,5 +157,5 @@ app.use(function (err, req, res, next) {
 });
 
 app.listen(8080, () => {
-    logger.log('info', 'Listening on port 80');
+    logger.log('info', 'Listening on port 8080');
 });
